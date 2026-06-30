@@ -47,28 +47,44 @@
     background:var(--iron);
     border-bottom:3px solid var(--orange);
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1120px;margin:0 auto;}
-  .brand{display:flex;align-items:center;gap:10px;}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;max-width:1120px;margin:0 auto;flex-wrap:nowrap;}
+  .brand{display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:1;}
   .brand-mark{
     width:38px;height:38px;background:var(--orange);
     display:flex;align-items:center;justify-content:center;
     font-family:'Oswald',sans-serif;font-weight:700;color:var(--paper);font-size:18px;
     flex-shrink:0;
   }
-  .brand-text{color:var(--paper);}
-  .brand-text .name{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:0.03em;text-transform:uppercase;line-height:1.1;}
-  .brand-text .tag{font-size:11px;color:#B8B4A8;letter-spacing:0.08em;text-transform:uppercase;}
-  .nav-links{display:flex;gap:28px;}
+  .brand-text{color:var(--paper);min-width:0;}
+  .brand-text .name{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:0.03em;text-transform:uppercase;line-height:1.1;white-space:nowrap;}
+  .brand-text .tag{font-size:11px;color:#B8B4A8;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;}
+  .nav-links{display:flex;gap:28px;flex-shrink:0;}
   .nav-links a{color:#D8D4C8;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;font-weight:500;transition:color 0.15s;}
   .nav-links a:hover{color:var(--orange);}
+  .nav-right{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+  .lang-toggle{
+    background:transparent;border:1px solid #5A5A52;color:#D8D4C8;
+    font-size:13px;font-weight:500;padding:8px 14px;cursor:pointer;
+    font-family:'Inter',sans-serif;transition:all 0.15s;white-space:nowrap;flex-shrink:0;
+  }
+  .lang-toggle:hover{border-color:var(--orange);color:var(--paper);}
   .nav-cta{
     background:var(--orange);color:var(--paper);
+    white-space:nowrap;flex-shrink:0;
     padding:9px 18px;font-size:13px;font-weight:600;
     text-transform:uppercase;letter-spacing:0.03em;
     display:flex;align-items:center;gap:8px;
   }
   .nav-cta:hover{background:var(--orange-dark);}
-  @media(max-width:760px){.nav-links{display:none;}}
+  @media(max-width:760px){
+    .nav-links{display:none;}
+    .brand-text .name,.brand-text .tag{overflow:hidden;text-overflow:ellipsis;max-width:46vw;}
+    .nav-cta span{display:none;}
+    .nav-cta{padding:9px 12px;}
+  }
+  @media(max-width:480px){
+    .brand-text .tag{display:none;}
+  }
 
   /* ===== HERO ===== */
   .hero{
@@ -176,6 +192,29 @@
   }
   .filter-chip.active{background:var(--iron);color:var(--paper);border-color:var(--iron);}
   .filter-chip:hover:not(.active){border-color:var(--steel);color:var(--iron);}
+
+  .search-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+  .search-box{
+    flex:1;min-width:240px;position:relative;display:flex;align-items:center;
+    background:var(--paper);border:1px solid var(--line);
+  }
+  .search-box i{position:absolute;left:14px;color:var(--ink-soft);font-size:17px;}
+  .search-box input{
+    width:100%;border:none;background:transparent;
+    padding:13px 16px 13px 42px;font-size:14px;color:var(--ink);font-family:'Inter',sans-serif;
+  }
+  .search-box input:focus{outline:none;}
+  .search-box input::placeholder{color:var(--ink-soft);}
+  .results-count{font-size:13px;color:var(--ink-soft);white-space:nowrap;}
+  .featured-label{
+    display:flex;align-items:center;gap:8px;font-size:12px;color:var(--steel);
+    text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:18px;
+  }
+  .load-more-wrap{display:flex;justify-content:center;margin-top:32px;}
+  .btn-outline-dark{background:var(--paper);color:var(--iron);border:1px solid var(--line);}
+  .btn-outline-dark:hover{border-color:var(--steel);}
+  .no-results{padding:48px 24px;text-align:center;color:var(--ink-soft);font-size:14px;}
+  .no-results i{font-size:28px;display:block;margin-bottom:12px;color:var(--steel);}
 
   .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
   .product-card{
@@ -321,33 +360,36 @@
       <div class="brand-mark">LH</div>
       <div class="brand-text">
         <div class="name">Lenward Hardware Trading</div>
-        <div class="tag">Hardware &amp; Paint Since 1994</div>
+        <div class="tag">Retailing Building Materials Since 1991</div>
       </div>
     </div>
     <div class="nav-links">
-      <a href="#aisles">Categories</a>
-      <a href="#products">Products</a>
-      <a href="#calculator">Paint calculator</a>
-      <a href="#visit">Visit us</a>
+      <a href="#aisles" data-i18n="nav.categories">Categories</a>
+      <a href="#products" data-i18n="nav.products">Products</a>
+      <a href="#calculator" data-i18n="nav.calculator">Paint calculator</a>
+      <a href="#visit" data-i18n="nav.visit">Visit us</a>
     </div>
-    <a class="nav-cta" href="#products"><i class="ti ti-brand-whatsapp"></i> Order on WhatsApp</a>
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle">中文</button>
+      <a class="nav-cta" href="#products"><i class="ti ti-brand-whatsapp"></i> <span data-i18n="nav.order">Order on WhatsApp</span></a>
+    </div>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <span class="hero-eyebrow"><i class="ti ti-map-pin"></i> Kota Kinabalu, Sabah</span>
-    <h1>Everything for the job, <span>nothing you don't need.</span></h1>
-    <p>Paint, tools, plumbing, and hardware — browse what's in stock, work out how much you need, then message us directly to order or ask a question. Final fitting and viewing is still done at the shop.</p>
+    <span class="hero-eyebrow"><i class="ti ti-map-pin"></i> <span data-i18n="hero.location">Kota Kinabalu, Sabah</span></span>
+    <h1 data-i18n-html="hero.title">Everything for the job, <span>nothing you don't need.</span></h1>
+    <p data-i18n="hero.desc">Paint, tools, plumbing, and hardware — browse what's in stock, work out how much you need, then message us directly to order or ask a question. Final fitting and viewing is still done at the shop.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#products"><i class="ti ti-brand-whatsapp"></i> Order on WhatsApp</a>
-      <a class="btn btn-outline" href="#calculator"><i class="ti ti-calculator"></i> Paint calculator</a>
+      <a class="btn btn-primary" href="#products"><i class="ti ti-brand-whatsapp"></i> <span data-i18n="nav.order">Order on WhatsApp</span></a>
+      <a class="btn btn-outline" href="#calculator"><i class="ti ti-calculator"></i> <span data-i18n="nav.calculator">Paint calculator</span></a>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="num">30+</div><div class="lbl">Years trading</div></div>
-      <div class="hero-stat"><div class="num">6</div><div class="lbl">Product aisles</div></div>
-      <div class="hero-stat"><div class="num">200+</div><div class="lbl">Items in stock</div></div>
+      <div class="hero-stat"><div class="num">35+</div><div class="lbl" data-i18n="hero.stat1">Years trading</div></div>
+      <div class="hero-stat"><div class="num">6</div><div class="lbl" data-i18n="hero.stat2">Product aisles</div></div>
+      <div class="hero-stat"><div class="num">10,000+</div><div class="lbl" data-i18n="hero.stat3">Items in stock</div></div>
     </div>
   </div>
 </section>
@@ -355,52 +397,52 @@
 <section class="aisles" id="aisles">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">Browse by aisle</span>
-      <h2>What's in the shop</h2>
-      <p>A quick look at what we carry. Walk in for the full range — this covers the categories customers ask about most.</p>
+      <span class="eyebrow" data-i18n="aisles.eyebrow">Browse by aisle</span>
+      <h2 data-i18n="aisles.title">What's in the shop</h2>
+      <p data-i18n="aisles.desc">A quick look at what we carry. Walk in for the full range — this covers the categories customers ask about most.</p>
     </div>
     <div class="aisle-grid">
       <div class="aisle-card" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
         <span class="aisle-num">01</span>
         <div class="aisle-icon"><i class="ti ti-paint"></i></div>
-        <h3>Paint &amp; coatings</h3>
-        <div class="desc">Interior, exterior, wood &amp; metal finishes. Multiple brands and sheens.</div>
-        <div class="count">View products →</div>
+        <h3 data-i18n="aisle1.name">Paint &amp; coatings</h3>
+        <div class="desc" data-i18n="aisle1.desc">Interior, exterior, wood &amp; metal finishes. Multiple brands and sheens.</div>
+        <div class="count" data-i18n="aisles.view">View products →</div>
       </div>
       <div class="aisle-card" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
         <span class="aisle-num">02</span>
         <div class="aisle-icon"><i class="ti ti-hammer"></i></div>
-        <h3>Hand &amp; power tools</h3>
-        <div class="desc">Drills, saws, wrenches, measuring tools, and accessories.</div>
-        <div class="count">View products →</div>
+        <h3 data-i18n="aisle2.name">Hand &amp; power tools</h3>
+        <div class="desc" data-i18n="aisle2.desc">Drills, saws, wrenches, measuring tools, and accessories.</div>
+        <div class="count" data-i18n="aisles.view">View products →</div>
       </div>
       <div class="aisle-card" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
         <span class="aisle-num">03</span>
         <div class="aisle-icon"><i class="ti ti-droplet"></i></div>
-        <h3>Plumbing</h3>
-        <div class="desc">Pipes, fittings, taps, and bathroom hardware.</div>
-        <div class="count">View products →</div>
+        <h3 data-i18n="aisle3.name">Plumbing</h3>
+        <div class="desc" data-i18n="aisle3.desc">Pipes, fittings, taps, and bathroom hardware.</div>
+        <div class="count" data-i18n="aisles.view">View products →</div>
       </div>
       <div class="aisle-card" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
         <span class="aisle-num">04</span>
         <div class="aisle-icon"><i class="ti ti-bulb"></i></div>
-        <h3>Electrical &amp; lighting</h3>
-        <div class="desc">Switches, wiring, bulbs, and basic fixtures.</div>
-        <div class="count">View products →</div>
+        <h3 data-i18n="aisle4.name">Electrical &amp; lighting</h3>
+        <div class="desc" data-i18n="aisle4.desc">Switches, wiring, bulbs, and basic fixtures.</div>
+        <div class="count" data-i18n="aisles.view">View products →</div>
       </div>
       <div class="aisle-card" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
         <span class="aisle-num">05</span>
         <div class="aisle-icon"><i class="ti ti-engine"></i></div>
-        <h3>Light machines</h3>
-        <div class="desc">Compressors, generators, and small workshop equipment.</div>
-        <div class="count">View products →</div>
+        <h3 data-i18n="aisle5.name">Light machines</h3>
+        <div class="desc" data-i18n="aisle5.desc">Compressors, generators, and small workshop equipment.</div>
+        <div class="count" data-i18n="aisles.view">View products →</div>
       </div>
       <div class="aisle-card" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
         <span class="aisle-num">06</span>
         <div class="aisle-icon"><i class="ti ti-tool"></i></div>
-        <h3>General hardware</h3>
-        <div class="desc">Screws, nails, locks, ropes, and everyday fixings.</div>
-        <div class="count">View products →</div>
+        <h3 data-i18n="aisle6.name">General hardware</h3>
+        <div class="desc" data-i18n="aisle6.desc">Screws, nails, locks, ropes, and everyday fixings.</div>
+        <div class="count" data-i18n="aisles.view">View products →</div>
       </div>
     </div>
   </div>
@@ -409,58 +451,74 @@
 <section class="products" id="products">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">Catalog</span>
-      <h2>Featured products</h2>
-      <p>Tap "Order" on any item — it opens WhatsApp with the product and size already filled in, ready to send.</p>
+      <span class="eyebrow" data-i18n="products.eyebrow">Catalog</span>
+      <h2 data-i18n="products.title">Find what you need</h2>
+      <p data-i18n="products.desc">Search our full catalog of 10,000+ products, or browse featured picks below. Tap "Order" on any item to message us directly with the product and size already filled in.</p>
+    </div>
+
+    <div class="search-row">
+      <div class="search-box">
+        <i class="ti ti-search"></i>
+        <input type="text" id="searchInput" data-i18n-placeholder="products.searchPlaceholder" placeholder="Search 10,000+ products by name or keyword...">
+      </div>
+      <div class="results-count" id="resultsCount"></div>
     </div>
 
     <div class="filter-bar" id="filterBar">
-      <button class="filter-chip active" data-filter="all">All</button>
-      <button class="filter-chip" data-filter="paint">Paint</button>
-      <button class="filter-chip" data-filter="tools">Tools</button>
-      <button class="filter-chip" data-filter="plumbing">Plumbing</button>
-      <button class="filter-chip" data-filter="electrical">Electrical</button>
-      <button class="filter-chip" data-filter="hardware">Hardware</button>
+      <button class="filter-chip active" data-filter="all" data-i18n="filter.all">All</button>
+      <button class="filter-chip" data-filter="paint" data-i18n="filter.paint">Paint</button>
+      <button class="filter-chip" data-filter="tools" data-i18n="filter.tools">Tools</button>
+      <button class="filter-chip" data-filter="plumbing" data-i18n="filter.plumbing">Plumbing</button>
+      <button class="filter-chip" data-filter="electrical" data-i18n="filter.electrical">Electrical</button>
+      <button class="filter-chip" data-filter="hardware" data-i18n="filter.hardware">Hardware</button>
+    </div>
+
+    <div id="featuredLabel" class="featured-label">
+      <i class="ti ti-star"></i> <span data-i18n="products.featuredLabel">Featured picks — search above to browse the full catalog</span>
     </div>
 
     <div class="product-grid" id="productGrid"></div>
+
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="btn btn-outline-dark" id="loadMoreBtn" data-i18n="products.loadMore">Show more products</button>
+    </div>
   </div>
 </section>
 
 <section class="calc-section" id="calculator">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">Paint estimator</span>
-      <h2>How much paint do I actually need?</h2>
-      <p>Enter your wall size and we'll work out the litres and number of cans — no more guessing or buying too much.</p>
+      <span class="eyebrow" data-i18n="calc.eyebrow">Paint estimator</span>
+      <h2 data-i18n="calc.title">How much paint do I actually need?</h2>
+      <p data-i18n="calc.desc">Enter your wall size and we'll work out the litres and number of cans — no more guessing or buying too much.</p>
     </div>
 
     <div class="calc-wrap">
       <div class="calc-form">
         <div class="calc-field">
-          <label>Wall area</label>
+          <label data-i18n="calc.wallArea">Wall area</label>
           <div class="calc-row">
-            <input type="number" class="calc-input" id="width" placeholder="Width (m)" min="0" step="0.1" value="4">
-            <input type="number" class="calc-input" id="height" placeholder="Height (m)" min="0" step="0.1" value="3">
+            <input type="number" class="calc-input" id="width" data-i18n-placeholder="calc.width" placeholder="Width (m)" min="0" step="0.1" value="4">
+            <input type="number" class="calc-input" id="height" data-i18n-placeholder="calc.height" placeholder="Height (m)" min="0" step="0.1" value="3">
           </div>
         </div>
         <div class="calc-field">
-          <label>Number of coats</label>
+          <label data-i18n="calc.coats">Number of coats</label>
           <select class="calc-input" id="coats">
-            <option value="1">1 coat</option>
-            <option value="2" selected>2 coats (recommended)</option>
-            <option value="3">3 coats</option>
+            <option value="1" data-i18n="calc.coat1">1 coat</option>
+            <option value="2" selected data-i18n="calc.coat2">2 coats (recommended)</option>
+            <option value="3" data-i18n="calc.coat3">3 coats</option>
           </select>
         </div>
         <div class="calc-field">
-          <label>Surface type</label>
+          <label data-i18n="calc.surface">Surface type</label>
           <select class="calc-input" id="surface">
-            <option value="0.10">Smooth wall (10 m²/L)</option>
-            <option value="0.12" selected>Average wall (12 m²/L)</option>
-            <option value="0.08">Rough / textured wall (8 m²/L)</option>
+            <option value="0.10" data-i18n="calc.surf1">Smooth wall (10 m²/L)</option>
+            <option value="0.12" selected data-i18n="calc.surf2">Average wall (12 m²/L)</option>
+            <option value="0.08" data-i18n="calc.surf3">Rough / textured wall (8 m²/L)</option>
           </select>
         </div>
-        <div class="calc-help">Coverage varies by brand and paint type — this gives a close estimate. Bring your measurements to the shop and we'll confirm before you buy.</div>
+        <div class="calc-help" data-i18n="calc.help">Coverage varies by brand and paint type — this gives a close estimate. Bring your measurements to the shop and we'll confirm before you buy.</div>
       </div>
 
       <div class="gauge-box">
@@ -472,7 +530,7 @@
         </div>
         <div class="gauge-readout">
           <div class="litres" id="litresOut">2.0</div>
-          <div class="litres-lbl">litres needed</div>
+          <div class="litres-lbl" data-i18n="calc.litresNeeded">litres needed</div>
           <div class="cans" id="cansOut">≈ <b>1</b> can of 5L, with leftover</div>
         </div>
       </div>
@@ -484,23 +542,23 @@
   <div class="wrap">
     <div class="about-grid">
       <div class="about-text">
-        <span class="eyebrow">Our story</span>
-        <h2 style="margin-bottom:18px;">Three decades behind the counter</h2>
-        <p>Lenward Hardware Trading started as a small corner shop selling nails and rope, and grew into a full hardware store stocking paint, tools, plumbing parts, and light machines. We've been serving Kota Kinabalu since 1994, and we still believe the best advice comes from someone who's actually used the tool.</p>
-        <p>This website is here so you can see what we carry before you make the trip down — but for fitting, color matching, and anything that needs a closer look, we'll always ask you to come by the shop.</p>
+        <span class="eyebrow" data-i18n="about.eyebrow">Our story</span>
+        <h2 style="margin-bottom:18px;" data-i18n="about.title">Three decades behind the counter</h2>
+        <p data-i18n="about.p1">Lenward Hardware Trading started as a small corner shop selling nails and rope, and grew into a full hardware store stocking paint, tools, plumbing parts, and light machines. We've been serving Kota Kinabalu since 1991, and we still believe the best advice comes from someone who's actually used the tool.</p>
+        <p data-i18n="about.p2">This website is here so you can see what we carry before you make the trip down — but for fitting, color matching, and anything that needs a closer look, we'll always ask you to come by the shop.</p>
       </div>
       <div class="trust-list">
         <div class="trust-item">
           <div class="trust-icon"><i class="ti ti-calendar"></i></div>
-          <div><h4>Trusted since 1994</h4><p>Same shop, same neighborhood, three decades on.</p></div>
+          <div><h4 data-i18n="trust1.title">Trusted since 1991</h4><p data-i18n="trust1.desc">Same shop, same neighborhood, three decades on.</p></div>
         </div>
         <div class="trust-item">
           <div class="trust-icon"><i class="ti ti-bulb"></i></div>
-          <div><h4>Advice, not just sales</h4><p>We'll tell you if you're buying the wrong thing.</p></div>
+          <div><h4 data-i18n="trust2.title">Advice, not just sales</h4><p data-i18n="trust2.desc">We'll tell you if you're buying the wrong thing.</p></div>
         </div>
         <div class="trust-item">
           <div class="trust-icon"><i class="ti ti-ruler-2"></i></div>
-          <div><h4>Help estimating quantities</h4><p>Bring your measurements, we'll do the maths.</p></div>
+          <div><h4 data-i18n="trust3.title">Help estimating quantities</h4><p data-i18n="trust3.desc">Bring your measurements, we'll do the maths.</p></div>
         </div>
       </div>
     </div>
@@ -511,20 +569,20 @@
   <div class="wrap">
     <div class="visit-grid">
       <div>
-        <span class="eyebrow" style="color:#BFE0EC;">Visit the shop</span>
-        <h2>See it, feel it, take it home</h2>
-        <p>Products on this site are a starting point. Colors, textures, and exact fit are always easier to judge in person — drop by during opening hours.</p>
+        <span class="eyebrow" style="color:#BFE0EC;" data-i18n="visit.eyebrow">Visit the shop</span>
+        <h2 data-i18n="visit.title">See it, feel it, take it home</h2>
+        <p data-i18n="visit.desc">Products on this site are a starting point. Colors, textures, and exact fit are always easier to judge in person — drop by during opening hours.</p>
         <div class="visit-detail">
           <div class="ic"><i class="ti ti-map-pin"></i></div>
-          <div class="tx"><b>Address</b><span>Lot 2, Blok P, Batu 3, Jalan Penampang, Taman Che Mei, 88200 Kota Kinabalu, Sabah</span></div>
+          <div class="tx"><b data-i18n="visit.addressLabel">Address</b><span>Lot 2, Blok P, Batu 3, Jalan Penampang, Taman Che Mei, 88200 Kota Kinabalu, Sabah</span></div>
         </div>
         <div class="visit-detail">
           <div class="ic"><i class="ti ti-clock"></i></div>
-          <div class="tx"><b>Opening hours</b><span>Mon–Sat, 10:30am – 5:00pm. Closed Sundays &amp; public holidays.</span></div>
+          <div class="tx"><b data-i18n="visit.hoursLabel">Opening hours</b><span data-i18n="visit.hours">Mon–Sat, 10:30am – 5:00pm. Closed Sundays &amp; public holidays.</span></div>
         </div>
         <div class="visit-detail">
           <div class="ic"><i class="ti ti-phone"></i></div>
-          <div class="tx"><b>Call the shop</b><span>088-249 123</span></div>
+          <div class="tx"><b data-i18n="visit.callLabel">Call the shop</b><span>088-249 123</span></div>
         </div>
       </div>
       <div class="visit-map"><div class="pin"></div></div>
@@ -537,24 +595,24 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="name">Lenward Hardware Trading</div>
-        <p>Hardware, paint, tools, plumbing, and electrical supplies in Kota Kinabalu since 1994.</p>
+        <p data-i18n="footer.tagline">Retailing building materials — paint, tools, plumbing, and electrical supplies in Kota Kinabalu since 1991.</p>
       </div>
       <div class="footer-col">
-        <h5>Shop</h5>
-        <a href="#aisles">Categories</a>
-        <a href="#products">Products</a>
-        <a href="#calculator">Paint calculator</a>
+        <h5 data-i18n="footer.shop">Shop</h5>
+        <a href="#aisles" data-i18n="nav.categories">Categories</a>
+        <a href="#products" data-i18n="nav.products">Products</a>
+        <a href="#calculator" data-i18n="nav.calculator">Paint calculator</a>
       </div>
       <div class="footer-col">
-        <h5>Contact</h5>
+        <h5 data-i18n="footer.contact">Contact</h5>
         <a href="#" id="footWaDad">WhatsApp David</a>
         <a href="#" id="footWaBro">WhatsApp Jordan</a>
-        <a href="#visit">Shop location</a>
+        <a href="#visit" data-i18n="footer.location">Shop location</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Lenward Hardware Trading. All prices subject to change in-store.</span>
-      <span>Built with care for the family business.</span>
+      <span data-i18n="footer.copyright">© 2026 Lenward Hardware Trading. All prices subject to change in-store.</span>
+      <span data-i18n="footer.builtFor">Built with care for the family business.</span>
     </div>
   </div>
 </footer>
@@ -565,53 +623,324 @@
 </div>
 
 <script>
+// ====== LANGUAGE / TRANSLATIONS ======
+const translations = {
+  en: {
+    "nav.order": "Order on WhatsApp",
+    "nav.categories": "Categories",
+    "nav.products": "Products",
+    "nav.calculator": "Paint calculator",
+    "nav.visit": "Visit us",
+    "hero.location": "Kota Kinabalu, Sabah",
+    "hero.desc": "Paint, tools, plumbing, and hardware — browse what's in stock, work out how much you need, then message us directly to order or ask a question. Final fitting and viewing is still done at the shop.",
+    "hero.stat1": "Years trading",
+    "hero.stat2": "Product aisles",
+    "hero.stat3": "Items in stock",
+    "aisles.eyebrow": "Browse by aisle",
+    "aisles.title": "What's in the shop",
+    "aisles.desc": "A quick look at what we carry. Walk in for the full range — this covers the categories customers ask about most.",
+    "aisles.view": "View products →",
+    "aisle1.name": "Paint & coatings",
+    "aisle1.desc": "Interior, exterior, wood & metal finishes. Multiple brands and sheens.",
+    "aisle2.name": "Hand & power tools",
+    "aisle2.desc": "Drills, saws, wrenches, measuring tools, and accessories.",
+    "aisle3.name": "Plumbing",
+    "aisle3.desc": "Pipes, fittings, taps, and bathroom hardware.",
+    "aisle4.name": "Electrical & lighting",
+    "aisle4.desc": "Switches, wiring, bulbs, and basic fixtures.",
+    "aisle5.name": "Light machines",
+    "aisle5.desc": "Compressors, generators, and small workshop equipment.",
+    "aisle6.name": "General hardware",
+    "aisle6.desc": "Screws, nails, locks, ropes, and everyday fixings.",
+    "products.eyebrow": "Catalog",
+    "products.title": "Find what you need",
+    "products.desc": "Search our full catalog of 10,000+ products, or browse featured picks below. Tap \"Order\" on any item to message us directly with the product and size already filled in.",
+    "products.searchPlaceholder": "Search 10,000+ products by name or keyword...",
+    "products.featuredLabel": "Featured picks — search above to browse the full catalog",
+    "products.loadMore": "Show more products",
+    "filter.all": "All",
+    "filter.paint": "Paint",
+    "filter.tools": "Tools",
+    "filter.plumbing": "Plumbing",
+    "filter.electrical": "Electrical",
+    "filter.hardware": "Hardware",
+    "calc.eyebrow": "Paint estimator",
+    "calc.title": "How much paint do I actually need?",
+    "calc.desc": "Enter your wall size and we'll work out the litres and number of cans — no more guessing or buying too much.",
+    "calc.wallArea": "Wall area",
+    "calc.width": "Width (m)",
+    "calc.height": "Height (m)",
+    "calc.coats": "Number of coats",
+    "calc.coat1": "1 coat",
+    "calc.coat2": "2 coats (recommended)",
+    "calc.coat3": "3 coats",
+    "calc.surface": "Surface type",
+    "calc.surf1": "Smooth wall (10 m²/L)",
+    "calc.surf2": "Average wall (12 m²/L)",
+    "calc.surf3": "Rough / textured wall (8 m²/L)",
+    "calc.help": "Coverage varies by brand and paint type — this gives a close estimate. Bring your measurements to the shop and we'll confirm before you buy.",
+    "calc.litresNeeded": "litres needed",
+    "calc.enterSize": "Enter wall size to estimate",
+    "calc.canWord": "can",
+    "calc.cansWord": "cans",
+    "about.eyebrow": "Our story",
+    "about.title": "Three decades behind the counter",
+    "about.p1": "Lenward Hardware Trading started as a small corner shop selling nails and rope, and grew into a full hardware store stocking paint, tools, plumbing parts, and light machines. We've been serving Kota Kinabalu since 1991, and we still believe the best advice comes from someone who's actually used the tool.",
+    "about.p2": "This website is here so you can see what we carry before you make the trip down — but for fitting, color matching, and anything that needs a closer look, we'll always ask you to come by the shop.",
+    "trust1.title": "Trusted since 1991",
+    "trust1.desc": "Same shop, same neighborhood, three decades on.",
+    "trust2.title": "Advice, not just sales",
+    "trust2.desc": "We'll tell you if you're buying the wrong thing.",
+    "trust3.title": "Help estimating quantities",
+    "trust3.desc": "Bring your measurements, we'll do the maths.",
+    "visit.eyebrow": "Visit the shop",
+    "visit.title": "See it, feel it, take it home",
+    "visit.desc": "Products on this site are a starting point. Colors, textures, and exact fit are always easier to judge in person — drop by during opening hours.",
+    "visit.addressLabel": "Address",
+    "visit.hoursLabel": "Opening hours",
+    "visit.hours": "Mon–Sat, 10:30am – 5:00pm. Closed Sundays & public holidays.",
+    "visit.callLabel": "Call the shop",
+    "footer.tagline": "Retailing building materials — paint, tools, plumbing, and electrical supplies in Kota Kinabalu since 1991.",
+    "footer.shop": "Shop",
+    "footer.contact": "Contact",
+    "footer.location": "Shop location",
+    "footer.copyright": "© 2026 Lenward Hardware Trading. All prices subject to change in-store.",
+    "footer.builtFor": "Built with care for the family business.",
+    "search.results": "results for",
+    "search.result": "result for",
+    "search.items": "items",
+    "search.item": "item",
+    "search.featuredOf": "Showing {n} featured of {total} products",
+    "search.noResults": "No products match that search. Try a different keyword, or message us directly on WhatsApp.",
+    "order.confirm": "Send \"{name}\" ({size}) to David's WhatsApp?\n\nOK = David   /   Cancel = Jordan",
+    "wa.askProduct": "Hi, I'd like to ask about: {name} ({size}). Is it in stock?",
+    "wa.askGeneral": "Hi, I'd like to ask about a product at the shop."
+  },
+  zh: {
+    "nav.order": "WhatsApp 下单",
+    "nav.categories": "分类",
+    "nav.products": "产品",
+    "nav.calculator": "油漆计算器",
+    "nav.visit": "门店地址",
+    "hero.location": "沙巴亚庇",
+    "hero.desc": "油漆、五金工具、水电与建材 — 浏览现有库存，估算所需用量，再直接传讯息给我们询问或下单。最终交货与验货仍需到店进行。",
+    "hero.stat1": "年经营经验",
+    "hero.stat2": "产品分类",
+    "hero.stat3": "在售商品",
+    "aisles.eyebrow": "按分类浏览",
+    "aisles.title": "店内有什么",
+    "aisles.desc": "快速了解我们经营的产品。欢迎到店选购齐全商品 — 以下是顾客最常询问的分类。",
+    "aisles.view": "查看产品 →",
+    "aisle1.name": "油漆与涂料",
+    "aisle1.desc": "室内外、木材与金属专用涂料，多种品牌与光泽可选。",
+    "aisle2.name": "手动与电动工具",
+    "aisle2.desc": "电钻、锯子、扳手、量具及各类配件。",
+    "aisle3.name": "水电管道",
+    "aisle3.desc": "水管、配件、水龙头及浴室五金。",
+    "aisle4.name": "电器与照明",
+    "aisle4.desc": "开关、电线、灯泡及基本灯具。",
+    "aisle5.name": "轻型机械",
+    "aisle5.desc": "空气压缩机、发电机及小型作业设备。",
+    "aisle6.name": "日常五金",
+    "aisle6.desc": "螺丝、钉子、锁具、绳索及各类日常配件。",
+    "products.eyebrow": "产品目录",
+    "products.title": "找到您需要的产品",
+    "products.desc": "搜索我们超过一万件商品的完整目录，或浏览以下精选产品。点击商品的「下单」按钮即可直接传讯息给我们，产品与尺寸都已自动填入。",
+    "products.searchPlaceholder": "按名称或关键字搜索一万多件产品...",
+    "products.featuredLabel": "精选推荐 — 搜索以浏览完整目录",
+    "products.loadMore": "显示更多产品",
+    "filter.all": "全部",
+    "filter.paint": "油漆",
+    "filter.tools": "工具",
+    "filter.plumbing": "水电",
+    "filter.electrical": "电器",
+    "filter.hardware": "五金",
+    "calc.eyebrow": "油漆用量估算",
+    "calc.title": "我到底需要买多少油漆？",
+    "calc.desc": "输入墙面尺寸，我们帮您算出所需公升数与罐数 — 不再凭感觉购买，避免买多或买少。",
+    "calc.wallArea": "墙面面积",
+    "calc.width": "宽度（米）",
+    "calc.height": "高度（米）",
+    "calc.coats": "涂刷层数",
+    "calc.coat1": "1 层",
+    "calc.coat2": "2 层（建议）",
+    "calc.coat3": "3 层",
+    "calc.surface": "墙面类型",
+    "calc.surf1": "光滑墙面（10 平方米/升）",
+    "calc.surf2": "一般墙面（12 平方米/升）",
+    "calc.surf3": "粗糙/纹理墙面（8 平方米/升）",
+    "calc.help": "实际用量因品牌与油漆种类而异，以上为估算值。请携带您的测量数据到店，我们会为您确认实际所需用量。",
+    "calc.litresNeeded": "所需公升数",
+    "calc.enterSize": "请输入墙面尺寸进行估算",
+    "calc.canWord": "罐",
+    "calc.cansWord": "罐",
+    "about.eyebrow": "我们的故事",
+    "about.title": "三十年柜台经营",
+    "about.p1": "Lenward Hardware Trading 从一间售卖钉子与绳索的小店起步，逐渐发展成经营油漆、工具、水电配件与轻型机械的综合五金店。自1991年起服务亚庇至今，我们始终相信，最实用的建议来自真正用过工具的人。",
+    "about.p2": "本网站让您能事先了解我们的商品，再决定是否前来选购 — 但涉及安装、调色或需要仔细查看的产品，我们仍建议您亲自到店查看。",
+    "trust1.title": "自1991年深受信赖",
+    "trust1.desc": "同一间店，同一个社区，三十年如一日。",
+    "trust2.title": "提供专业建议，而非一味推销",
+    "trust2.desc": "如果您买错了产品，我们会如实告知。",
+    "trust3.title": "协助估算所需用量",
+    "trust3.desc": "带上您的测量数据，我们帮您计算。",
+    "visit.eyebrow": "欢迎到店",
+    "visit.title": "亲眼看、亲手摸，再带回家",
+    "visit.desc": "本站产品信息仅供参考。颜色、质感与实际尺寸最好亲自到店确认 — 欢迎在营业时间到访。",
+    "visit.addressLabel": "地址",
+    "visit.hoursLabel": "营业时间",
+    "visit.hours": "周一至周六，上午10:30至下午5:00。周日及公共假期休息。",
+    "visit.callLabel": "致电门店",
+    "footer.tagline": "经营建材零售 — 油漆、工具、水电与电器用品，服务亚庇自1991年起。",
+    "footer.shop": "商店",
+    "footer.contact": "联系方式",
+    "footer.location": "门店地址",
+    "footer.copyright": "© 2026 Lenward Hardware Trading。店内价格如有更动，恕不另行通知。",
+    "footer.builtFor": "用心为家族生意打造。",
+    "search.results": "个搜索结果，关键字：",
+    "search.result": "个搜索结果，关键字：",
+    "search.items": "件商品",
+    "search.item": "件商品",
+    "search.featuredOf": "显示 {total} 件产品中的 {n} 件精选",
+    "search.noResults": "找不到符合搜索的产品。请尝试其他关键字，或直接通过 WhatsApp 联系我们。",
+    "order.confirm": "将「{name}」（{size}）的询问传送给 David 的 WhatsApp？\n\n确定 = David   /   取消 = Jordan",
+    "wa.askProduct": "您好，我想询问：{name}（{size}）。请问还有库存吗？",
+    "wa.askGeneral": "您好，我想询问店内产品。"
+  }
+};
+
+let currentLang = 'en';
+
+function applyTranslations(){
+  const t = translations[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(t[key]) el.placeholder = t[key];
+  });
+  // hero title has inline markup, handle separately
+  const heroTitle = document.querySelector('[data-i18n-html="hero.title"]');
+  if(heroTitle){
+    heroTitle.innerHTML = currentLang === 'zh'
+      ? '每一份工程所需，<span>不多不少。</span>'
+      : "Everything for the job, <span>nothing you don't need.</span>";
+  }
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+  document.getElementById('langToggle').textContent = currentLang === 'zh' ? 'English' : '中文';
+  renderProducts();
+  calcPaint();
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  applyTranslations();
+});
+
 // ====== CONFIG: replace with real numbers (country code, no + or leading 0) ======
 const WA_DAD = "60128101168";
 const WA_BRO = "60128983368";
 
-// ====== PRODUCT DATA: placeholders — swap in real products, prices, photos ======
-const products = [
-  { name: "Nippon Weatherbond Exterior Paint", cat: "paint", catLabel: "Paint", size: "5L", price: "RM 138", badge: "Popular", icon: "ti-paint" },
-  { name: "Nippon Vinilex Interior Emulsion", cat: "paint", catLabel: "Paint", size: "5L", price: "RM 89", badge: null, icon: "ti-paint" },
-  { name: "Jotun Wood Stain — Walnut", cat: "paint", catLabel: "Paint", size: "1L", price: "RM 42", badge: null, icon: "ti-paint" },
-  { name: "Anti-Rust Metal Primer", cat: "paint", catLabel: "Paint", size: "1L", price: "RM 35", badge: null, icon: "ti-paint" },
-  { name: "Bosch Cordless Drill GSR 12V", cat: "tools", catLabel: "Tools", size: "1 set", price: "RM 289", badge: "New", icon: "ti-hammer" },
-  { name: "Stanley Tape Measure", cat: "tools", catLabel: "Tools", size: "5m", price: "RM 18", badge: null, icon: "ti-ruler-2" },
-  { name: "Adjustable Wrench Set", cat: "tools", catLabel: "Tools", size: "3 pcs", price: "RM 45", badge: null, icon: "ti-tool" },
-  { name: "Hand Saw — Wood Cutting", cat: "tools", catLabel: "Tools", size: "20 inch", price: "RM 32", badge: null, icon: "ti-hammer" },
-  { name: "PVC Pipe — Class 5", cat: "plumbing", catLabel: "Plumbing", size: "3 inch x 3m", price: "RM 24", badge: null, icon: "ti-droplet" },
-  { name: "Bathroom Tap — Chrome Finish", cat: "plumbing", catLabel: "Plumbing", size: "Standard", price: "RM 65", badge: null, icon: "ti-droplet" },
-  { name: "Flexible Hose Connector", cat: "plumbing", catLabel: "Plumbing", size: "30cm", price: "RM 12", badge: null, icon: "ti-droplet" },
-  { name: "LED Bulb — Daylight", cat: "electrical", catLabel: "Electrical", size: "9W", price: "RM 9", badge: null, icon: "ti-bulb" },
-  { name: "3-Pin Wall Switch Socket", cat: "electrical", catLabel: "Electrical", size: "13A", price: "RM 11", badge: null, icon: "ti-bulb" },
-  { name: "Extension Cable Reel", cat: "electrical", catLabel: "Electrical", size: "10m", price: "RM 38", badge: null, icon: "ti-bulb" },
-  { name: "Galvanized Nails — Assorted", cat: "hardware", catLabel: "Hardware", size: "1kg", price: "RM 8", badge: null, icon: "ti-tool" },
-  { name: "Padlock — Heavy Duty", cat: "hardware", catLabel: "Hardware", size: "50mm", price: "RM 22", badge: null, icon: "ti-tool" },
-  { name: "Nylon Rope", cat: "hardware", catLabel: "Hardware", size: "10m", price: "RM 15", badge: null, icon: "ti-tool" },
-  { name: "Cabinet Hinges — Set of 2", cat: "hardware", catLabel: "Hardware", size: "Standard", price: "RM 7", badge: null, icon: "ti-tool" },
-];
+// ====== PRODUCT DATA ======
+// Loaded from products.json at runtime — this file can hold 10,000+ items.
+// To update the catalog, replace products.json (see products-template.csv for the format).
+// "featured": true on an item makes it show by default on the homepage grid.
+let products = [];
+let visibleCount = 24;
+const PAGE_SIZE = 24;
+let currentFilter = 'all';
+let currentQuery = '';
+
+async function loadProducts(){
+  try{
+    const res = await fetch('products.json');
+    if(!res.ok) throw new Error('not found');
+    products = await res.json();
+  } catch(err){
+    // Fallback sample data so the page still works if products.json is missing
+    products = [
+      { name: "Nippon Weatherbond Exterior Paint", cat: "paint", catLabel: "Paint", size: "5L", price: "RM 138", badge: "Popular", icon: "ti-paint", featured: true },
+      { name: "Bosch Cordless Drill GSR 12V", cat: "tools", catLabel: "Tools", size: "1 set", price: "RM 289", badge: "New", icon: "ti-hammer", featured: true },
+      { name: "PVC Pipe — Class 5", cat: "plumbing", catLabel: "Plumbing", size: "3 inch x 3m", price: "RM 24", badge: null, icon: "ti-droplet", featured: true },
+      { name: "LED Bulb — Daylight", cat: "electrical", catLabel: "Electrical", size: "9W", price: "RM 9", badge: null, icon: "ti-bulb", featured: true },
+      { name: "Galvanized Nails — Assorted", cat: "hardware", catLabel: "Hardware", size: "1kg", price: "RM 8", badge: null, icon: "ti-tool", featured: true },
+    ];
+    console.warn('products.json not found — showing sample data. This page needs to be served over http(s), not opened directly as a file.');
+  }
+  renderProducts();
+}
+
+function getFilteredList(){
+  let list = products;
+  if(currentQuery.trim() !== ''){
+    const q = currentQuery.trim().toLowerCase();
+    list = list.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      (p.catLabel && p.catLabel.toLowerCase().includes(q)) ||
+      (p.size && p.size.toLowerCase().includes(q))
+    );
+  } else if(currentFilter === 'all'){
+    // No search yet: homepage shows featured items only, to keep things fast
+    list = list.filter(p => p.featured);
+  }
+  if(currentFilter !== 'all'){
+    list = list.filter(p => p.cat === currentFilter);
+  }
+  return list;
+}
 
 function waLink(num, productName, size){
+  const t = translations[currentLang];
   let msg;
   if(productName){
-    msg = `Hi, I'd like to ask about: ${productName} (${size}). Is it in stock?`;
+    msg = t["wa.askProduct"].replace("{name}", productName).replace("{size}", size);
   } else {
-    msg = `Hi, I'd like to ask about a product at the shop.`;
+    msg = t["wa.askGeneral"];
   }
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 
-function renderProducts(filter){
+function renderProducts(){
   const grid = document.getElementById('productGrid');
+  const countEl = document.getElementById('resultsCount');
+  const featuredLabel = document.getElementById('featuredLabel');
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+
+  const fullList = getFilteredList();
+  const showing = fullList.slice(0, visibleCount);
+
+  featuredLabel.style.display = (currentQuery.trim() === '' && currentFilter === 'all') ? 'flex' : 'none';
+
+  const t = translations[currentLang];
+  if(currentQuery.trim() !== ''){
+    const word = fullList.length === 1 ? t["search.result"] : t["search.results"];
+    countEl.textContent = currentLang === 'zh'
+      ? `${fullList.length.toLocaleString()} ${word}"${currentQuery.trim()}"`
+      : `${fullList.length.toLocaleString()} ${word} "${currentQuery.trim()}"`;
+  } else if(currentFilter !== 'all'){
+    const word = fullList.length === 1 ? t["search.item"] : t["search.items"];
+    countEl.textContent = `${fullList.length.toLocaleString()} ${word}`;
+  } else {
+    countEl.textContent = t["search.featuredOf"].replace("{n}", fullList.length).replace("{total}", products.length.toLocaleString());
+  }
+
   grid.innerHTML = '';
-  const list = filter === 'all' ? products : products.filter(p => p.cat === filter);
-  list.forEach(p => {
+
+  if(showing.length === 0){
+    grid.innerHTML = `<div class="no-results" style="grid-column:1/-1;"><i class="ti ti-search-off"></i>${t["search.noResults"]}</div>`;
+    loadMoreWrap.style.display = 'none';
+    return;
+  }
+
+  showing.forEach(p => {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.innerHTML = `
       <div class="product-img">
         ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
-        <i class="ti ${p.icon}" style="font-size:40px;"></i>
+        <i class="ti ${p.icon || 'ti-tool'}" style="font-size:40px;"></i>
       </div>
       <div class="product-body">
         <span class="product-cat">${p.catLabel}</span>
@@ -635,10 +964,13 @@ function renderProducts(filter){
       showOrderChoice(name, size);
     });
   });
+
+  loadMoreWrap.style.display = (fullList.length > showing.length) ? 'flex' : 'none';
 }
 
 function showOrderChoice(name, size){
-  const choice = confirm(`Send "${name}" (${size}) to David's WhatsApp?\n\nOK = David   /   Cancel = Jordan`);
+  const t = translations[currentLang];
+  const choice = confirm(t["order.confirm"].replace("{name}", name).replace("{size}", size));
   const num = choice ? WA_DAD : WA_BRO;
   window.open(waLink(num, name, size), '_blank');
 }
@@ -647,10 +979,27 @@ document.getElementById('filterBar').addEventListener('click', (e) => {
   if(e.target.tagName !== 'BUTTON') return;
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
   e.target.classList.add('active');
-  renderProducts(e.target.getAttribute('data-filter'));
+  currentFilter = e.target.getAttribute('data-filter');
+  visibleCount = PAGE_SIZE;
+  renderProducts();
 });
 
-renderProducts('all');
+let searchDebounce;
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    currentQuery = e.target.value;
+    visibleCount = PAGE_SIZE;
+    renderProducts();
+  }, 200);
+});
+
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  visibleCount += PAGE_SIZE;
+  renderProducts();
+});
+
+loadProducts();
 
 // footer + sticky bar links (general inquiry)
 document.getElementById('footWaDad').href = waLink(WA_DAD, null, null);
@@ -672,6 +1021,7 @@ const cansOut = document.getElementById('cansOut');
 const gaugeArc = document.getElementById('gaugeArc');
 
 function calcPaint(){
+  const t = translations[currentLang];
   const w = parseFloat(widthEl.value) || 0;
   const h = parseFloat(heightEl.value) || 0;
   const coats = parseInt(coatsEl.value) || 1;
@@ -683,15 +1033,17 @@ function calcPaint(){
   litresOut.textContent = litres.toFixed(1);
 
   let cansText;
+  const canW = t["calc.canWord"];
+  const cansW = t["calc.cansWord"];
   if(litres <= 0){
-    cansText = 'Enter wall size to estimate';
+    cansText = t["calc.enterSize"];
   } else if(litres <= 1){
-    cansText = `≈ <b>1</b> can of 1L`;
+    cansText = currentLang === 'zh' ? `≈ <b>1</b> ${canW} 1L装` : `≈ <b>1</b> ${canW} of 1L`;
   } else if(litres <= 5){
-    cansText = `≈ <b>1</b> can of 5L`;
+    cansText = currentLang === 'zh' ? `≈ <b>1</b> ${canW} 5L装` : `≈ <b>1</b> ${canW} of 5L`;
   } else {
     const fiveLcans = Math.ceil(litres / 5);
-    cansText = `≈ <b>${fiveLcans}</b> cans of 5L`;
+    cansText = currentLang === 'zh' ? `≈ <b>${fiveLcans}</b> ${cansW} 5L装` : `≈ <b>${fiveLcans}</b> ${cansW} of 5L`;
   }
   cansOut.innerHTML = cansText;
 
@@ -705,6 +1057,7 @@ function calcPaint(){
 
 [widthEl, heightEl, coatsEl, surfaceEl].forEach(el => el.addEventListener('input', calcPaint));
 calcPaint();
+applyTranslations();
 </script>
 
 </body>
