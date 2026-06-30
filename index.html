@@ -76,11 +76,30 @@
     display:flex;align-items:center;gap:8px;
   }
   .nav-cta:hover{background:var(--orange-dark);}
+  .menu-toggle{
+    display:none;background:transparent;border:1px solid #5A5A52;color:var(--paper);
+    width:38px;height:38px;align-items:center;justify-content:center;
+    font-size:19px;cursor:pointer;flex-shrink:0;
+  }
+  .menu-toggle:hover{border-color:var(--orange);}
+  .mobile-menu{
+    display:none;flex-direction:column;
+    background:var(--iron-soft);border-top:1px solid #44443D;
+    max-height:0;overflow:hidden;transition:max-height 0.25s ease;
+  }
+  .mobile-menu.open{max-height:300px;}
+  .mobile-menu a{
+    color:#D8D4C8;font-size:14px;text-transform:uppercase;letter-spacing:0.04em;
+    font-weight:500;padding:16px 24px;border-bottom:1px solid #44443D;
+  }
+  .mobile-menu a:hover{color:var(--orange);}
   @media(max-width:760px){
     .nav-links{display:none;}
-    .brand-text .name,.brand-text .tag{overflow:hidden;text-overflow:ellipsis;max-width:46vw;}
+    .brand-text .name,.brand-text .tag{overflow:hidden;text-overflow:ellipsis;max-width:38vw;}
     .nav-cta span{display:none;}
     .nav-cta{padding:9px 12px;}
+    .menu-toggle{display:flex;}
+    .mobile-menu{display:flex;}
   }
   @media(max-width:480px){
     .brand-text .tag{display:none;}
@@ -249,6 +268,84 @@
     text-transform:uppercase;letter-spacing:0.03em;cursor:pointer;
   }
   .order-btn:hover{background:#1FB855;}
+  .add-inquiry-btn{
+    display:flex;align-items:center;justify-content:center;
+    width:36px;height:36px;flex-shrink:0;
+    background:transparent;border:1px solid var(--line);color:var(--steel);
+    cursor:pointer;font-size:16px;transition:all 0.15s;
+  }
+  .add-inquiry-btn:hover{border-color:var(--steel);background:var(--concrete);}
+  .add-inquiry-btn.added{background:var(--steel);border-color:var(--steel);color:#fff;}
+  .product-foot{gap:8px;}
+
+  /* ===== MODAL (order choice) ===== */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;z-index:200;
+    background:rgba(0,0,0,0.55);
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--paper);max-width:380px;width:100%;
+    border-top:3px solid var(--orange);position:relative;
+  }
+  .modal-close{
+    position:absolute;top:12px;right:12px;
+    background:transparent;border:none;color:var(--ink-soft);
+    font-size:20px;cursor:pointer;width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .modal-close:hover{color:var(--iron);}
+  .modal-body{padding:28px 24px 24px;}
+  .modal-title{font-family:'Oswald',sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:0.02em;color:var(--iron);margin-bottom:6px;}
+  .modal-sub{font-size:13px;color:var(--ink-soft);margin-bottom:22px;line-height:1.5;}
+  .modal-item-list{
+    background:var(--concrete);border:1px solid var(--line);
+    max-height:160px;overflow-y:auto;margin-bottom:20px;
+  }
+  .modal-item-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 14px;font-size:13px;border-bottom:1px solid var(--line);
+  }
+  .modal-item-row:last-child{border-bottom:none;}
+  .modal-item-row .nm{color:var(--iron);font-weight:500;}
+  .modal-item-row .sz{color:var(--ink-soft);}
+  .modal-item-row .rm{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:15px;padding:2px 4px;}
+  .modal-item-row .rm:hover{color:var(--orange);}
+  .person-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:14px;margin-bottom:10px;
+    background:#fff;border:1px solid var(--line);color:var(--iron);
+    font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;
+  }
+  .person-btn i{color:#25D366;font-size:18px;}
+  .person-btn:hover{border-color:#25D366;background:#F0FBF4;}
+  .modal-cancel{
+    width:100%;text-align:center;padding:10px;margin-top:6px;
+    background:none;border:none;color:var(--ink-soft);font-size:13px;
+    cursor:pointer;text-decoration:underline;
+  }
+  .modal-cancel:hover{color:var(--iron);}
+
+  /* ===== FLOATING INQUIRY CART ===== */
+  .cart-fab{
+    position:fixed;bottom:24px;right:24px;z-index:90;
+    background:var(--orange);color:#fff;border:none;
+    width:58px;height:58px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    font-size:22px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.3);
+    transition:transform 0.15s;
+  }
+  .cart-fab.show{display:flex;}
+  .cart-fab:hover{transform:scale(1.06);}
+  .cart-fab .badge{
+    position:absolute;top:-4px;right:-4px;
+    background:var(--steel);color:#fff;
+    width:22px;height:22px;border-radius:50%;
+    font-size:11px;font-weight:600;font-family:'Inter',sans-serif;
+    display:flex;align-items:center;justify-content:center;
+  }
+  @media(max-width:760px){.cart-fab{bottom:78px;right:16px;}}
 
   /* ===== CALCULATOR (signature element) ===== */
   .calc-section{
@@ -372,8 +469,17 @@
     <div class="nav-right">
       <button class="lang-toggle" id="langToggle">中文</button>
       <a class="nav-cta" href="#products"><i class="ti ti-brand-whatsapp"></i> <span data-i18n="nav.order">Order on WhatsApp</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+        <i class="ti ti-menu-2"></i>
+      </button>
     </div>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#aisles" data-i18n="nav.categories">Categories</a>
+    <a href="#products" data-i18n="nav.products">Products</a>
+    <a href="#calculator" data-i18n="nav.calculator">Paint calculator</a>
+    <a href="#visit" data-i18n="nav.visit">Visit us</a>
+  </div>
 </header>
 
 <section class="hero">
@@ -622,6 +728,25 @@
   <a class="btn btn-outline" id="stickyWaBro" href="#" style="color:#fff;"><i class="ti ti-brand-whatsapp"></i> Jordan</a>
 </div>
 
+<button class="cart-fab" id="cartFab" aria-label="Product inquiry list">
+  <i class="ti ti-clipboard-list"></i>
+  <span class="badge" id="cartBadge">0</span>
+</button>
+
+<div class="modal-overlay" id="orderModal">
+  <div class="modal-box">
+    <button class="modal-close" id="orderModalClose" aria-label="Close"><i class="ti ti-x"></i></button>
+    <div class="modal-body">
+      <div class="modal-title" id="orderModalTitle">Send this inquiry</div>
+      <div class="modal-sub" id="orderModalSub">Choose who to message on WhatsApp.</div>
+      <div class="modal-item-list" id="orderModalItems"></div>
+      <button class="person-btn" id="orderToDavid"><i class="ti ti-brand-whatsapp"></i> <span data-i18n="modal.sendDavid">Send to David</span></button>
+      <button class="person-btn" id="orderToJordan"><i class="ti ti-brand-whatsapp"></i> <span data-i18n="modal.sendJordan">Send to Jordan</span></button>
+      <button class="modal-cancel" id="orderModalCancel" data-i18n="modal.cancel">Not now</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ====== LANGUAGE / TRANSLATIONS ======
 const translations = {
@@ -712,9 +837,19 @@ const translations = {
     "search.item": "item",
     "search.featuredOf": "Showing {n} featured of {total} products",
     "search.noResults": "No products match that search. Try a different keyword, or message us directly on WhatsApp.",
-    "order.confirm": "Send \"{name}\" ({size}) to David's WhatsApp?\n\nOK = David   /   Cancel = Jordan",
     "wa.askProduct": "Hi, I'd like to ask about: {name} ({size}). Is it in stock?",
-    "wa.askGeneral": "Hi, I'd like to ask about a product at the shop."
+    "wa.askGeneral": "Hi, I'd like to ask about a product at the shop.",
+    "wa.askMulti": "Hi, I'd like to ask about a few products:\n{list}\nAre these in stock?",
+    "modal.singleTitle": "Send this inquiry",
+    "modal.singleSub": "Choose who to message on WhatsApp.",
+    "modal.multiTitle": "Send your inquiry list",
+    "modal.multiSubPrefix": "products selected. Choose who to message on WhatsApp.",
+    "modal.sendDavid": "Send to David",
+    "modal.sendJordan": "Send to Jordan",
+    "modal.cancel": "Not now",
+    "cart.added": "Added to inquiry",
+    "cart.addToInquiry": "Add to inquiry",
+    "cart.removed": "Removed"
   },
   zh: {
     "nav.order": "WhatsApp 下单",
@@ -803,9 +938,19 @@ const translations = {
     "search.item": "件商品",
     "search.featuredOf": "显示 {total} 件产品中的 {n} 件精选",
     "search.noResults": "找不到符合搜索的产品。请尝试其他关键字，或直接通过 WhatsApp 联系我们。",
-    "order.confirm": "将「{name}」（{size}）的询问传送给 David 的 WhatsApp？\n\n确定 = David   /   取消 = Jordan",
     "wa.askProduct": "您好，我想询问：{name}（{size}）。请问还有库存吗？",
-    "wa.askGeneral": "您好，我想询问店内产品。"
+    "wa.askGeneral": "您好，我想询问店内产品。",
+    "wa.askMulti": "您好，我想询问几样产品：\n{list}\n请问这些还有库存吗？",
+    "modal.singleTitle": "传送此询问",
+    "modal.singleSub": "请选择要传送 WhatsApp 给谁。",
+    "modal.multiTitle": "传送您的询问清单",
+    "modal.multiSubPrefix": "项产品已选择。请选择要传送 WhatsApp 给谁。",
+    "modal.sendDavid": "传送给 David",
+    "modal.sendJordan": "传送给 Jordan",
+    "modal.cancel": "暂不传送",
+    "cart.added": "已加入询问清单",
+    "cart.addToInquiry": "加入询问清单",
+    "cart.removed": "已移除"
   }
 };
 
@@ -832,11 +977,30 @@ function applyTranslations(){
   document.getElementById('langToggle').textContent = currentLang === 'zh' ? 'English' : '中文';
   renderProducts();
   calcPaint();
+  if(document.getElementById('orderModal').classList.contains('open')){
+    renderModal();
+  }
 }
 
 document.getElementById('langToggle').addEventListener('click', () => {
   currentLang = currentLang === 'en' ? 'zh' : 'en';
   applyTranslations();
+});
+
+// ====== MOBILE MENU ======
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+menuToggle.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  menuToggle.querySelector('i').className = isOpen ? 'ti ti-x' : 'ti ti-menu-2';
+});
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.querySelector('i').className = 'ti ti-menu-2';
+  });
 });
 
 // ====== CONFIG: replace with real numbers (country code, no + or leading 0) ======
@@ -848,6 +1012,7 @@ const WA_BRO = "60128983368";
 // To update the catalog, replace products.json (see products-template.csv for the format).
 // "featured": true on an item makes it show by default on the homepage grid.
 let products = [];
+let inquiryCart = [];
 let visibleCount = 24;
 const PAGE_SIZE = 24;
 let currentFilter = 'all';
@@ -902,6 +1067,13 @@ function waLink(num, productName, size){
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 
+function waLinkMulti(num, items){
+  const t = translations[currentLang];
+  const list = items.map(it => `• ${it.name} (${it.size})`).join('\n');
+  const msg = t["wa.askMulti"].replace("{list}", list);
+  return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+}
+
 function renderProducts(){
   const grid = document.getElementById('productGrid');
   const countEl = document.getElementById('resultsCount');
@@ -937,6 +1109,7 @@ function renderProducts(){
   showing.forEach(p => {
     const card = document.createElement('div');
     card.className = 'product-card';
+    const isInCart = inquiryCart.some(it => it.name === p.name && it.size === p.size);
     card.innerHTML = `
       <div class="product-img">
         ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
@@ -948,6 +1121,9 @@ function renderProducts(){
         <div class="product-meta"><span><i class="ti ti-package"></i> ${p.size}</span></div>
         <div class="product-foot">
           <span class="product-price">${p.price}</span>
+          <button class="add-inquiry-btn ${isInCart ? 'added' : ''}" data-name="${p.name.replace(/"/g,'&quot;')}" data-size="${p.size}" aria-label="${t['cart.addToInquiry']}" title="${t['cart.addToInquiry']}">
+            <i class="ti ${isInCart ? 'ti-check' : 'ti-plus'}"></i>
+          </button>
           <button class="order-btn" data-name="${p.name.replace(/"/g,'&quot;')}" data-size="${p.size}">
             <i class="ti ti-brand-whatsapp"></i> Order
           </button>
@@ -961,19 +1137,117 @@ function renderProducts(){
     btn.addEventListener('click', () => {
       const name = btn.getAttribute('data-name');
       const size = btn.getAttribute('data-size');
-      showOrderChoice(name, size);
+      openOrderModal([{name, size}], false);
+    });
+  });
+
+  grid.querySelectorAll('.add-inquiry-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-name');
+      const size = btn.getAttribute('data-size');
+      toggleCartItem(name, size);
+      renderProducts();
     });
   });
 
   loadMoreWrap.style.display = (fullList.length > showing.length) ? 'flex' : 'none';
 }
 
-function showOrderChoice(name, size){
-  const t = translations[currentLang];
-  const choice = confirm(t["order.confirm"].replace("{name}", name).replace("{size}", size));
-  const num = choice ? WA_DAD : WA_BRO;
-  window.open(waLink(num, name, size), '_blank');
+// ====== INQUIRY CART (for multi-product WhatsApp messages) ======
+function toggleCartItem(name, size){
+  const idx = inquiryCart.findIndex(it => it.name === name && it.size === size);
+  if(idx >= 0){
+    inquiryCart.splice(idx, 1);
+  } else {
+    inquiryCart.push({name, size});
+  }
+  updateCartFab();
 }
+
+function updateCartFab(){
+  const fab = document.getElementById('cartFab');
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = inquiryCart.length;
+  fab.classList.toggle('show', inquiryCart.length > 0);
+}
+
+document.getElementById('cartFab').addEventListener('click', () => {
+  if(inquiryCart.length === 0) return;
+  openOrderModal(inquiryCart, true);
+});
+
+// ====== ORDER MODAL (replaces native confirm/OK-Cancel dialog) ======
+let modalItems = [];
+let modalIsMulti = false;
+
+function openOrderModal(items, isMulti){
+  modalItems = items.slice();
+  modalIsMulti = isMulti;
+  renderModal();
+  document.getElementById('orderModal').classList.add('open');
+}
+
+function closeOrderModal(){
+  document.getElementById('orderModal').classList.remove('open');
+}
+
+function renderModal(){
+  const t = translations[currentLang];
+  const titleEl = document.getElementById('orderModalTitle');
+  const subEl = document.getElementById('orderModalSub');
+  const listEl = document.getElementById('orderModalItems');
+
+  titleEl.textContent = modalIsMulti ? t["modal.multiTitle"] : t["modal.singleTitle"];
+  subEl.textContent = modalIsMulti
+    ? `${modalItems.length} ${t["modal.multiSubPrefix"]}`
+    : t["modal.singleSub"];
+
+  listEl.innerHTML = modalItems.map((it, i) => `
+    <div class="modal-item-row">
+      <span class="nm">${it.name} <span class="sz">— ${it.size}</span></span>
+      ${modalIsMulti ? `<button class="rm" data-idx="${i}" aria-label="Remove"><i class="ti ti-x"></i></button>` : ''}
+    </div>
+  `).join('');
+
+  if(modalIsMulti){
+    listEl.querySelectorAll('.rm').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-idx'));
+        const removed = modalItems[idx];
+        modalItems.splice(idx, 1);
+        inquiryCart = inquiryCart.filter(it => !(it.name === removed.name && it.size === removed.size));
+        updateCartFab();
+        if(modalItems.length === 0){
+          closeOrderModal();
+          renderProducts();
+          return;
+        }
+        renderModal();
+      });
+    });
+  }
+}
+
+function sendOrder(num){
+  const link = modalItems.length === 1
+    ? waLink(num, modalItems[0].name, modalItems[0].size)
+    : waLinkMulti(num, modalItems);
+  window.open(link, '_blank');
+  if(modalIsMulti){
+    inquiryCart = [];
+    updateCartFab();
+    renderProducts();
+  }
+  closeOrderModal();
+}
+
+document.getElementById('orderToDavid').addEventListener('click', () => sendOrder(WA_DAD));
+document.getElementById('orderToJordan').addEventListener('click', () => sendOrder(WA_BRO));
+document.getElementById('orderModalClose').addEventListener('click', closeOrderModal);
+document.getElementById('orderModalCancel').addEventListener('click', closeOrderModal);
+document.getElementById('orderModal').addEventListener('click', (e) => {
+  if(e.target.id === 'orderModal') closeOrderModal();
+});
 
 document.getElementById('filterBar').addEventListener('click', (e) => {
   if(e.target.tagName !== 'BUTTON') return;
